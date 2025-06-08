@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlShehri - Digital Hub</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@300;400;600;700;800&family=Cairo:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-color: #667eea;
+        }
+
+        body {
+            font-family: 'Cairo', 'Poppins', 'Inter', sans-serif;
+            background: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* خلفية متحركة */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        /* محتوى الصفحة */
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .profile-section {
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .avatar-placeholder {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* شبكة الأزرار */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .link-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.2rem 2rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .link-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .link-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            background: rgba(40, 40, 40, 0.9);
+        }
+
+        .link-icon {
+            display: none;
+        }
+
+        .link-card:hover .link-icon {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .link-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .link-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* إحصائيات */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            min-width: 100px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        /* فوتر */
+        .footer {
+            position: absolute;
+            bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 300;
+        }
+
+        /* أنيميشن الدخول */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* استجابة للهواتف */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 3rem;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            }
+            
+            .avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+        }
+
+        /* تأثير المؤشر */
+        .cursor-glow {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.4) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow"></div>
+    
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="profile-section">
+            <div class="avatar" onclick="changeAvatar()">
+                <img id="avatarImg" src="" alt="Avatar" style="display: none;">
+                <div id="avatarPlaceholder" class="avatar-placeholder">AS</div>
+            </div>
+            <h1 class="title"># aBuShehRi .</h1>
+            <p class="subtitle">Digital Creator & Developer</p>
+            <p class="description">Welcome To aBuShehRi Site</p>
+        </div>
+
+        <div class="links-grid">
+            <a href="https://shehri.site" class="link-card" target="_blank">
+                <span class="link-icon"></span>
+                <div class="link-title">aBuShehRi Files</div>
+                <div class="link-description">تابع أحدث أعمالي وإبداعاتي البصرية</div>
+            </a>
+            
+            <a href="https://discord.gg/507" class="link-card" target="_blank">
+                <span class="link-icon"></span>
+                <div class="link-title">AlShehRi Server</div>
+                <div class="link-description">انضم إلى خادم الديسكورد الخاص بي</div>
+            </a>
+            
+            <a href="#" class="link-card" target="_blank">
+                <span class="link-icon"></span>
+                <div class="link-title">Lyx WebSite</div>
+                <div class="link-description">موقع Lyx الرسمي</div>
+            </a>
+            
+            <a href="https://www.instagram.com/6uh_/" class="link-card" target="_blank">
+                <span class="link-icon"></span>
+                <div class="link-title">Lyx Server</div>
+                <div class="link-description">خادم Lyx على الديسكورد</div>
+            </a>
+            
+            <a href="https://guns.lol/0_7" class="link-card" target="_blank">
+                <span class="link-icon"></span>
+                <div class="link-title">guns.lol Account</div>
+                <div class="link-description">حسابي على منصة guns.lol</div>
+            </a>
+            
+            <a href="https://github.com/i6uh" class="link-card" target="_blank">
+                <span class="link-icon"></span>
+                <div class="link-title">GitHub</div>
+                <div class="link-description">مشاريعي البرمجية ومساهماتي</div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="footer">
+        © 2025 AlShehri • Made with ❤️
+    </div>
+
+    <script>
+        // وظيفة تغيير الأفتار
+        function changeAvatar() {
+            const avatarUrl = prompt('أدخل رابط الصورة الجديدة:');
+            if (avatarUrl && avatarUrl.trim() !== '') {
+                const avatarImg = document.getElementById('avatarImg');
+                const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+                
+                avatarImg.src = avatarUrl;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+                
+                // حفظ الرابط في الذاكرة المؤقتة
+                avatarImg.onerror = function() {
+                    alert('فشل في تحميل الصورة. تأكد من صحة الرابط.');
+                    avatarImg.style.display = 'none';
+                    avatarPlaceholder.style.display = 'block';
+                };
+            }
+        }
+        const cursorGlow = document.querySelector('.cursor-glow');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX - 10 + 'px';
+            cursorGlow.style.top = e.clientY - 10 + 'px';
+        });
+
+        // تأثيرات الأزرار المحسنة
+        document.querySelectorAll('.link-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-12px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+
+            // تأثير النقر
+            card.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(-8px) scale(0.98)';
+            });
+
+            card.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-12px) scale(1.02)';
+            });
+        });
+
+        // أنيميشن الأرقام
+        function animateNumbers() {
+            // تم إزالة الأرقام
+        }
+
+        // تشغيل أنيميشن الأرقام عند التحميل
+        window.addEventListener('load', () => {
+            // تم إزالة الأرقام
+        });
+
+        // تأثير الضوء عند التمرير
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.link-card');
+            
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `translateY(-12px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                }
+            });
+        });
+
+        // إعادة تعيين التحويل عند مغادرة الصفحة
+        document.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.link-card').forEach(card => {
+                card.style.transform = 'translateY(0) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
